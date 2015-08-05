@@ -46,16 +46,19 @@ verbose=False
 #############
 # Calls other functions from above
 def main(strInput):
-	#print strInput
-	urls = re.findall('u=(http-3A.*)&d=',strInput)
-	#print urls
+	urls = re.findall('u=(http-3A.*|https-3A.*)&d=',strInput)
+	if verbose:
+		print "\n\n=================================URLS:\n=================================\n%s=================================\n\n" % urls
 	output = []
 	for url in urls:
 		url = url.replace("-","%")
 		url = url.replace("_","/")
 		url = url.replace("[.]",".")
 		url = urllib.unquote(url)
+		if verbose:
+			print "DEOBFUSCATED URL: %s" % url
 		output.append(url)
+	print "\n\n\n"
 	for element in output:
 		print element
 
@@ -75,6 +78,6 @@ if __name__ == '__main__':
 	#strInput = str(sys.stdin.readlines())
 	#strInput = raw_input()
 	strInput = str(sys.argv[1])
-	
-	#print strInput
+	if verbose:
+		print "=================================RAW INPUT:\n=================================\n%s=================================\n\n" % strInput
 	main(strInput)
